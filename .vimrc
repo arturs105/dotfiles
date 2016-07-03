@@ -18,6 +18,8 @@ set hlsearch "Highlight search results
 
 "Remove highlights after search with "\<space>"
 nnoremap <leader><space> :nohlsearch<CR>
-" move vertically by visual line
+"Move vertically by visual line
 nnoremap j gj
 nnoremap k gk
+
+map <leader>n :NERDTree<CR>
