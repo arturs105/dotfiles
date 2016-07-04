@@ -1,6 +1,6 @@
 "Set up pathogen
 execute pathogen#infect()
-filetype plugin indent on
+filetype plugin on
 
 syntax on
 set background=dark
@@ -23,3 +23,5 @@ nnoremap j gj
 nnoremap k gk
 
 map <leader>n :NERDTree<CR>
+let g:OmniSharp_selector_ui = 'ctrlp'
+let g:OmniSharp_host = "http://localhost:2000"
