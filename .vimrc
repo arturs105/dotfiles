@@ -8,7 +8,7 @@ colorscheme stereokai
 
 set tabstop=4
 
-set number "Show line numbers
+set relativenumber "Show relative line numbers
 set cursorline "Highlight current cursor line
 set wildmenu "Shows files when e: ~/.vim<TAB>
 set showmatch "Highlits matching parenthesies [](){}
