@@ -14,6 +14,7 @@ set cursorline "Highlight current cursor line
 set wildmenu "Shows files when e: ~/.vim<TAB>
 set showmatch "Highlits matching parenthesies [](){}
 
+set ignorecase "Case insensitive search
 set incsearch "Search as characters are entered
 set hlsearch "Highlight search results
 
