@@ -7,6 +7,7 @@ alias lal='ls -al'
 alias c='clear'
 
 #Git aliases
+alias g='git'
 alias gs='git status'
 alias gb='git branch'
 alias gc='git commit'
