@@ -6,6 +6,13 @@ alias l='ls'
 alias lal='ls -al'
 alias c='clear'
 
+#Git aliases
+alias gs='git status'
+alias gb='git branch'
+alias gc='git commit'
+alias gl='git log'
+alias ga='git add'
+
 #Back
 alias b='cd -'
 
@@ -22,3 +29,6 @@ export CLICOLOR=1
 #Adds colors to the ls command
 export LSCOLORS=ExFxBxDxCxegedabagacad
 eval $(/usr/libexec/path_helper -s)
+
+export PATH="$HOME/.fastlane/bin:$PATH"
+
