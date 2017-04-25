@@ -10,6 +10,7 @@ alias c='clear'
 alias gs='git status'
 alias gb='git branch'
 alias gc='git commit'
+alias gch='git checkout'
 alias gl='git log'
 alias ga='git add'
 
