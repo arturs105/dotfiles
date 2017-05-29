@@ -5,6 +5,7 @@ alias ll='ls -l'
 alias l='ls'
 alias lal='ls -al'
 alias c='clear'
+alias u='cd ..' #Up
 
 #Git aliases
 alias g='git'
