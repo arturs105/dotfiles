@@ -15,6 +15,9 @@ alias gc='git commit'
 alias gch='git checkout'
 alias gl='git log'
 alias ga='git add'
+alias gss='git stash save'
+alias gsl='git stash list'
+alias gsp='git stash pop'
 
 #Back
 alias b='cd -'
