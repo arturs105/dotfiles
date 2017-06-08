@@ -18,6 +18,8 @@ alias ga='git add'
 alias gss='git stash save'
 alias gsl='git stash list'
 alias gsp='git stash pop'
+alias gps='git push'
+alias gpl='git pull'
 
 #Back
 alias b='cd -'
