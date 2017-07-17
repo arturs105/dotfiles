@@ -29,6 +29,3 @@ export CLICOLOR=1
 #Adds colors to the ls command
 export LSCOLORS=ExFxBxDxCxegedabagacad
 eval $(/usr/libexec/path_helper -s)
-
-export PATH="$HOME/.fastlane/bin:$PATH"
-
