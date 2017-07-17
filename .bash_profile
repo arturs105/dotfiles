@@ -1,5 +1,3 @@
-export PATH=$PATH:/Users/Arturs/Library/Android/sdk/platform-tools/
-
 alias ls='ls -F'
 alias ll='ls -l'
 alias l='ls'
