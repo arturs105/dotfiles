@@ -41,6 +41,9 @@ link "$DOTFILES/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES/vimrc" "$HOME/.vimrc"
 link "$DOTFILES/vim"   "$HOME/.vim"
 
+# Tmux
+link "$DOTFILES/tmux.conf" "$HOME/.tmux.conf"
+
 # Claude Code
 mkdir -p "$HOME/.claude"
 link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
