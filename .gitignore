@@ -1,1 +1,14 @@
-*
+# macOS
+.DS_Store
+
+# Editor backups
+*~
+*.swp
+*.bak
+
+# Local overrides (machine-specific)
+*.local
+
+# Secrets — belt and suspenders; should live outside the repo anyway
+.secrets
+.env
