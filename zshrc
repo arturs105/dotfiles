@@ -211,6 +211,9 @@ gwrm() {
     fi
 }
 
+# Remote access to The Forge
+alias forge='ssh arturs@the-precious.taild86a97.ts.net -t "tmux attach -t dev"'
+
 alias ls='ls -F'
 alias ll='ls -l'
 alias l='ls'
