@@ -135,14 +135,12 @@ gwa() {
         git worktree add "$dir" "$dir" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
-        echo "✓ Worktree '$dir' (existing branch) ready" && \
-        open MultiMic.xcodeproj
+        echo "✓ Worktree '$dir' (existing branch) ready"
     else
         git worktree add "$dir" -b "$dir" "$base" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
-        echo "✓ Worktree '$dir' (branch from $base) ready" && \
-        open MultiMic.xcodeproj
+        echo "✓ Worktree '$dir' (branch from $base) ready"
     fi
 }
 
