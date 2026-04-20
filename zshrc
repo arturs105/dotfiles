@@ -131,12 +131,19 @@ gwa() {
     local dir="$1"
     local base="${2:-$(_gwa_default_base)}"
 
-    # Create new branch from base
-    git worktree add "$dir" -b "$dir" "$base" && \
-    cd "$dir" && \
-    git submodule update --init --recursive && \
-    echo "✓ Worktree '$dir' (branch from $base) ready" && \
-    open MultiMic.xcodeproj
+    if git rev-parse --verify --quiet "refs/heads/$dir" >/dev/null; then
+        git worktree add "$dir" "$dir" && \
+        cd "$dir" && \
+        git submodule update --init --recursive && \
+        echo "✓ Worktree '$dir' (existing branch) ready" && \
+        open MultiMic.xcodeproj
+    else
+        git worktree add "$dir" -b "$dir" "$base" && \
+        cd "$dir" && \
+        git submodule update --init --recursive && \
+        echo "✓ Worktree '$dir' (branch from $base) ready" && \
+        open MultiMic.xcodeproj
+    fi
 }
 
 # Git Worktree Checkout
@@ -215,7 +222,7 @@ gwrm() {
 }
 
 # Remote access to The Forge
-alias forge='ssh arturs@the-forge.taild86a97.ts.net -t "tmux attach -t dev"'
+alias forge='ssh arturs@the-forge.taild86a97.ts.net -t "tmux new-session -A -s dev"'
 
 alias ls='ls -F'
 alias ll='ls -l'
