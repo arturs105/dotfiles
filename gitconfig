@@ -2,3 +2,5 @@
 [user]
 	name = Artūrs Eimanis
 	email = arturseimanis@gmail.com
+[pull]
+	rebase = true
