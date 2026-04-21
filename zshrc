@@ -222,6 +222,10 @@ gwrm() {
 # Remote access to The Forge
 alias forge='ssh arturs@the-forge.taild86a97.ts.net -t "tmux new-session -A -s dev"'
 
+# PolyMic shortcuts
+alias dr='./scripts/device-run.sh'
+
+# Common shortcuts
 alias ls='ls -F'
 alias ll='ls -l'
 alias l='ls'
