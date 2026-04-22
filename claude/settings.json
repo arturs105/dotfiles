@@ -67,6 +67,16 @@
         ]
       }
     ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/clear_attention.sh"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "hooks": [

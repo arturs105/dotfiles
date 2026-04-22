@@ -8,6 +8,11 @@ project=$(basename "$cwd")
 # Hard off-switch
 [ -f ~/.claude/notify-off ] && exit 0
 
+# Mark tmux window as needing attention
+if [ -n "$TMUX" ]; then
+    tmux set-option -w -t "$TMUX_PANE" @claude_attention 1 2>/dev/null
+fi
+
 # Presence check: away = locked OR idle > 10 min
 idle=$(ioreg -c IOHIDSystem | awk '/HIDIdleTime/ {print int($NF/1000000000); exit}')
 locked=$(ioreg -n Root -d1 -a | grep -c CGSSessionScreenIsLocked)
