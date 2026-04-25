@@ -229,6 +229,7 @@ alias forge='ssh arturs@the-forge.taild86a97.ts.net -t "tmux new-session -A -s d
 alias dr='./scripts/device-run.sh'
 alias oi='./scripts/ota-install.sh'
 alias ox='./scripts/open-xcode-locally.sh'
+alias pm='cd ~/Projects/multi-mic.git'
 
 # Common shortcuts
 alias ls='ls -F'
