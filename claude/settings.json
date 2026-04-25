@@ -3,6 +3,7 @@
     "FORCE_COLOR": "1"
   },
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Read",
       "Glob",
@@ -39,7 +40,9 @@
       "Bash(node *)",
       "Bash(jq *)",
       "Bash(chmod *)",
-      "Bash(gh *)"
+      "Bash(gh *)",
+      "Bash(tail *)",
+      "Bash(grep *)"
     ],
     "deny": [
       "Bash(rm -rf *)",
