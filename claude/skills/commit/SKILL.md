@@ -33,3 +33,5 @@ Create a git commit for the current changes.
    ```
 
 6. Run `git status` after to verify success. Show the user the commit hash and message.
+
+7. Push to the remote: `git push`. If the branch has no upstream, use `git push -u origin HEAD`.

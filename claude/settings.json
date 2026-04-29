@@ -42,7 +42,9 @@
       "Bash(chmod *)",
       "Bash(gh *)",
       "Bash(tail *)",
-      "Bash(grep *)"
+      "Bash(grep *)",
+      "Bash(~/Projects/multi-mic.git/*/scripts/*)",
+      "Bash(~/Projects/multi-mic.git/*/tools/*)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -53,15 +55,6 @@
     "Notification": [
       {
         "matcher": "permission_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/notify.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "idle_prompt",
         "hooks": [
           {
             "type": "command",
