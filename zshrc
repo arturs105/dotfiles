@@ -138,12 +138,14 @@ gwa() {
         git worktree add "$dir" "$dir" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
-        echo "✓ Worktree '$dir' (existing branch) ready"
+        echo "✓ Worktree '$dir' (existing branch) ready" && \
+        claude -n "$dir"
     else
         git worktree add "$dir" -b "$dir" "$base" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
-        echo "✓ Worktree '$dir' (branch from $base) ready"
+        echo "✓ Worktree '$dir' (branch from $base) ready" && \
+        claude -n "$dir"
     fi
 }
 
