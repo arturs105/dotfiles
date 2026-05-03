@@ -92,6 +92,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/idle_attention.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
