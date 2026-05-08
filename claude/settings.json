@@ -112,5 +112,9 @@
     "swift-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "skipAutoPermissionPrompt": true
+  "theme": "light-daltonized",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "inputNeededNotifEnabled": true
 }
