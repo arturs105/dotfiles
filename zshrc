@@ -225,7 +225,11 @@ gwrm() {
 }
 
 # Remote access to The Forge
-alias forge='ssh arturs@the-forge.taild86a97.ts.net -t "tmux new-session -A -s dev"'
+forge() {
+    mutagen daemon start >/dev/null 2>&1
+    mutagen sync resume shuttle >/dev/null 2>&1
+    ssh arturs@the-forge.taild86a97.ts.net -t "tmux new-session -A -s dev"
+}
 
 # PolyMic shortcuts
 alias dr='./scripts/device-run.sh'
