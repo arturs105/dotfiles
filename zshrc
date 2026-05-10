@@ -236,6 +236,7 @@ alias dr='./scripts/device-run.sh'
 alias oi='./scripts/ota-install.sh'
 alias ox='./scripts/open-xcode-locally.sh'
 alias pm='cd ~/Projects/multi-mic.git'
+alias qr='./scripts/qrgen.sh'
 
 # Common shortcuts
 alias ls='ls -F'
