@@ -109,12 +109,13 @@
     "command": "~/.claude/hooks/statusline.sh"
   },
   "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true
   },
   "effortLevel": "medium",
+  "skipAutoPermissionPrompt": true,
   "theme": "light-daltonized",
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
   "inputNeededNotifEnabled": true
 }
