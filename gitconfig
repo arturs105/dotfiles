@@ -4,3 +4,16 @@
 	email = arturseimanis@gmail.com
 [pull]
 	rebase = true
+[safe]
+	directory = /opt/actions-runner/_work/multi-mic/multi-mic
+	directory = /opt/gh-actions-runners/1/_work/multi-mic/multi-mic
+	directory = /opt/gh-actions-runners/2/_work/multi-mic/multi-mic
+	directory = /opt/gh-actions-runners/3/_work/multi-mic/multi-mic
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
