@@ -28,36 +28,42 @@ host=$(hostname -s)
 
 ctx_str=""
 if [[ -n "$transcript" && -f "$transcript" ]]; then
-  last_usage=$(grep '"usage"' "$transcript" 2>/dev/null | tail -1)
-  if [[ -n "$last_usage" ]]; then
-    tokens=$(jq -r '
-      .message.usage
-      | (.input_tokens // 0)
-        + (.cache_read_input_tokens // 0)
-        + (.cache_creation_input_tokens // 0)
-    ' <<<"$last_usage" 2>/dev/null)
+  # Context usage = the most recent *assistant* message's token totals.
+  # Sub-agent/Task results are logged as user lines whose usage lives under
+  # .toolUseResult (not .message.usage), so selecting plain "last usage line"
+  # would land on one of those and blank the readout after every tool call.
+  # Filter to assistant frames with a real .message.usage; select(. > 0) also
+  # drops the occasional zero-usage assistant frame.
+  tokens=$(grep '"usage"' "$transcript" 2>/dev/null \
+    | jq -rc '
+        select(.type == "assistant" and (.message.usage | type) == "object")
+        | (.message.usage.input_tokens // 0)
+          + (.message.usage.cache_read_input_tokens // 0)
+          + (.message.usage.cache_creation_input_tokens // 0)
+        | select(. > 0)
+      ' 2>/dev/null \
+    | tail -1)
 
-    if [[ -n "$tokens" && "$tokens" != "null" && "$tokens" -gt 0 ]]; then
-      # 1M-context models carry a [1m] suffix; otherwise assume 200k.
-      # Auto-bump if measured usage already exceeds 200k.
-      if [[ "$model_id" == *"[1m]"* || "$tokens" -gt 200000 ]]; then
-        window=1000000
-      else
-        window=200000
-      fi
-
-      pct=$(awk -v t="$tokens" -v w="$window" 'BEGIN{printf "%.0f", (t/w)*100}')
-
-      if [[ "$tokens" -ge 1000000 ]]; then
-        tk=$(awk -v t="$tokens" 'BEGIN{printf "%.1fM", t/1000000}')
-      elif [[ "$tokens" -ge 1000 ]]; then
-        tk=$(awk -v t="$tokens" 'BEGIN{printf "%.0fk", t/1000}')
-      else
-        tk="$tokens"
-      fi
-
-      ctx_str=$(printf " [%s|%s%%]" "$tk" "$pct")
+  if [[ -n "$tokens" && "$tokens" != "null" && "$tokens" -gt 0 ]]; then
+    # 1M-context models carry a [1m] suffix; otherwise assume 200k.
+    # Auto-bump if measured usage already exceeds 200k.
+    if [[ "$model_id" == *"[1m]"* || "$tokens" -gt 200000 ]]; then
+      window=1000000
+    else
+      window=200000
     fi
+
+    pct=$(awk -v t="$tokens" -v w="$window" 'BEGIN{printf "%.0f", (t/w)*100}')
+
+    if [[ "$tokens" -ge 1000000 ]]; then
+      tk=$(awk -v t="$tokens" 'BEGIN{printf "%.1fM", t/1000000}')
+    elif [[ "$tokens" -ge 1000 ]]; then
+      tk=$(awk -v t="$tokens" 'BEGIN{printf "%.0fk", t/1000}')
+    else
+      tk="$tokens"
+    fi
+
+    ctx_str=$(printf " [%s|%s%%]" "$tk" "$pct")
   fi
 fi
 
