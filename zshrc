@@ -235,7 +235,17 @@ forge() {
 alias dr='./scripts/device-run.sh'
 alias oi='./scripts/ota-install.sh'
 alias ox='./scripts/open-xcode-locally.sh'
-alias pm='cd ~/Projects/multi-mic.git'
+PM_REPO="$HOME/Projects/multi-mic.git"
+unalias pm 2>/dev/null                 # drop the old alias so re-sourcing can redefine pm as a function
+pm() { cd "$PM_REPO${1:+/$1}"; }       # `pm` → repo root, `pm <worktree>` → that worktree
+_pm() {                                # complete worktree dir names from `git worktree list`
+    local -a worktrees
+    worktrees=(${(f)"$(git -C "$PM_REPO" worktree list --porcelain 2>/dev/null | awk '/^worktree /{print substr($0,10)}')"})
+    worktrees=(${worktrees#$PM_REPO/})   # make paths relative to the repo root
+    worktrees=(${worktrees:#$PM_REPO})   # drop the bare root entry
+    compadd -a worktrees
+}
+compdef _pm pm
 alias qr='./scripts/qrgen.sh'
 
 # Common shortcuts
