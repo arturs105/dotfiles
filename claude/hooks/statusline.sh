@@ -7,10 +7,12 @@
 #
 # Before the first API response of a session that field is empty, so the
 # baseline (system prompt + tools + skills + custom instructions) isn't yet
-# known to the status line. We cache the first total observed per project and
-# show it as an approximate "~16k" until the live number is available. The
-# baseline is refreshed once per session (keyed by session_id), so it tracks
-# changes to CLAUDE.md / skills / MCP without drifting upward as a session grows.
+# known to the status line. We cache the smallest total ever observed per
+# project — the closest estimate of a fresh conversation's floor — and show it
+# as an approximate "~16k" until the live number is available. Tracking the
+# minimum (rather than the first total of each session) keeps this honest after
+# /clear: the new session has no live data yet and falls back to this baseline,
+# so a stale mid-session total would otherwise linger as a too-large "~Nk".
 #
 # Width handling: the status-line command runs with no controlling tty, so
 # $COLUMNS and `tput cols` don't work. Inside tmux we read the pane width via
@@ -73,16 +75,17 @@ cache_file="$cache_dir/$proj_key"
 
 approx=""
 if [[ "${tokens:-0}" =~ ^[0-9]+$ && "$tokens" -gt 0 ]]; then
-  # Live data available. Record this session's first observed total as next
-  # session's baseline — written once per session id, before context grows.
-  cached_session=""
-  [[ -f "$cache_file" ]] && read -r cached_session _ _ <"$cache_file" 2>/dev/null
-  if [[ "$cached_session" != "$session_id" ]]; then
+  # Live data available. Keep the per-project baseline at the smallest total
+  # ever seen, so it approximates a fresh session's floor and never drifts up.
+  baseline=""
+  [[ -f "$cache_file" ]] && read -r _ baseline _ <"$cache_file" 2>/dev/null
+  if ! [[ "$baseline" =~ ^[0-9]+$ ]] || [[ "$tokens" -lt "$baseline" ]]; then
     mkdir -p "$cache_dir" 2>/dev/null \
       && printf '%s %s %s\n' "$session_id" "$tokens" "$window" >"$cache_file" 2>/dev/null
   fi
 elif [[ -f "$cache_file" ]]; then
-  # No live data yet (pre-prompt). Fall back to the cached baseline, marked ~.
+  # No live data yet (pre-prompt / just after /clear). Fall back to the cached
+  # baseline (the project's smallest observed total), marked ~.
   read -r _ tokens window <"$cache_file" 2>/dev/null
   approx="~"
 fi
