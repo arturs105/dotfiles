@@ -10,6 +10,8 @@ export ASC_ISSUER_ID="f537215f-eaac-486f-be9e-c72cfab65e47"
 export ASC_KEY_ID="7PSYZDA9BJ"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
+export MULTIMIC_MACBOOK_SSH="arturseimanis@the-precious"   # e.g. macbook-pro
+
 # Load secrets
 if [[ -f ~/.secrets ]]; then                                                                                          
   source ~/.secrets                                                                                                   
