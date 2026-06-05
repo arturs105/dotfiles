@@ -129,23 +129,25 @@ _gwa_default_base() {
 }
 
 # Git Worktree Add
-# Adds a worktree and makes sure all submodules are up to date
+# Usage: gwa <dir> [prompt] [base]
+# Adds a worktree, updates submodules, and launches claude (with an optional starting prompt)
 gwa() {
     local dir="$1"
-    local base="${2:-$(_gwa_default_base)}"
+    local prompt="$2"
+    local base="${3:-$(_gwa_default_base)}"
 
     if git rev-parse --verify --quiet "refs/heads/$dir" >/dev/null; then
         git worktree add "$dir" "$dir" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
         echo "✓ Worktree '$dir' (existing branch) ready" && \
-        claude -n "$dir"
+        claude -n "$dir" ${prompt:+"$prompt"}
     else
         git worktree add "$dir" -b "$dir" "$base" && \
         cd "$dir" && \
         git submodule update --init --recursive && \
         echo "✓ Worktree '$dir' (branch from $base) ready" && \
-        claude -n "$dir"
+        claude -n "$dir" ${prompt:+"$prompt"}
     fi
 }
 
