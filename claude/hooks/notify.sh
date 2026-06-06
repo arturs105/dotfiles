@@ -19,14 +19,14 @@ case "$notification_type" in
     permission_prompt|elicitation_dialog)
         needs_input=1 ;;
     idle_prompt)
-        cur=$(tmux show-options -wv -t "$TMUX_PANE" @claude_attention 2>/dev/null)
+        cur=$(tmux show-options -wv -t "$TMUX_PANE" @attention 2>/dev/null)
         [ "$cur" = "2" ] || needs_input=1 ;;
 esac
 
 # Mark tmux window orange (needs attention). Visual hint only, so it runs even
 # when desktop/phone notifications are silenced (off-switch is below).
 if [ "$needs_input" = 1 ] && [ -n "$TMUX" ]; then
-    tmux set-option -w -t "$TMUX_PANE" @claude_attention 1 2>/dev/null
+    tmux set-option -w -t "$TMUX_PANE" @attention 1 2>/dev/null
 fi
 
 # Non-blocking notifications (auth_success, idle-while-already-green,

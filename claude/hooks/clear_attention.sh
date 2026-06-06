@@ -10,8 +10,8 @@
 tool=$(cat | jq -r '.tool_name // empty' 2>/dev/null)
 case "$tool" in
     AskUserQuestion|ExitPlanMode)
-        tmux set-option -w -t "$TMUX_PANE" @claude_attention 1 2>/dev/null ;;
+        tmux set-option -w -t "$TMUX_PANE" @attention 1 2>/dev/null ;;
     *)
-        tmux set-option -w -u -t "$TMUX_PANE" @claude_attention 2>/dev/null ;;
+        tmux set-option -w -u -t "$TMUX_PANE" @attention 2>/dev/null ;;
 esac
 exit 0
