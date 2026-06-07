@@ -151,6 +151,21 @@ gwa() {
     fi
 }
 
+# Git Worktree Tmux — CLI alias for the script invoked by the tmux binding.
+# See ~/.bin/gwt-tmux for the implementation.
+alias gwt="$HOME/.bin/gwt-tmux"
+
+# Git Worktree Tmux Remove — runs gwrm and closes the tmux window on success.
+# Usage: gwtrm [-f]            (removes current worktree, closes current window)
+#        gwtrm [-f] <branch>   (explicit; closes current window on success)
+gwtrm() {
+    if [[ -z "$TMUX" ]]; then
+        echo "Not inside a tmux session"
+        return 1
+    fi
+    gwrm "$@" && tmux kill-window
+}
+
 # Git Worktree Checkout
 # Adds a worktree for an existing branch (local or remote)
 gwc() {
