@@ -1,0 +1,47 @@
+#!/usr/bin/env zsh
+# Spawn a tmux window for a new MultiMic worktree + claude session.
+# Usage: gwt-tmux <base> <branch> <prompt>
+#   base: optional; empty -> gwa picks default (worktree.defaultBase / origin HEAD / main)
+#
+# Invoked from tmux's run-shell binding (current pane may be running anything,
+# not just a shell), so we don't rely on any interactive shell context here —
+# only `tmux` commands and zsh builtins. The new window starts its own
+# interactive zsh, which sources ~/.zshrc and makes `pm`/`gwa` available.
+
+emulate -L zsh
+
+base="$1"
+branch="$2"
+prompt="$3"
+
+if [[ -z "$branch" || -z "$prompt" ]]; then
+    print -r -- "Usage: gwt-tmux <base> <branch> <prompt>" >&2
+    exit 1
+fi
+
+if [[ -z "$TMUX" ]]; then
+    print -r -- "Not inside a tmux session" >&2
+    exit 1
+fi
+
+PM_REPO="${PM_REPO:-$HOME/Projects/multi-mic.git}"
+worktree_dir="$PM_REPO/$branch"
+
+# Pull the base worktree if it exists; if base empty, pull main as before.
+pull_dir="${base:-main}"
+pull_cmd=""
+if [[ -d "$PM_REPO/$pull_dir" ]]; then
+    pull_cmd="git -C ${(qqqq)pull_dir} pull --ff-only && "
+fi
+
+# Left pane = claude. Right pane = shell at the worktree dir (once gwa makes it).
+left=$(tmux new-window -n "$branch" -c "$PM_REPO" -P -F '#{pane_id}') || exit 1
+right=$(tmux split-window -t "$left" -h -d -c "$PM_REPO" -P -F '#{pane_id}') || exit 1
+
+tmux send-keys -t "$left" \
+    "cd ${(qqqq)PM_REPO} && ${pull_cmd}gwa ${(qqqq)branch} ${(qqqq)prompt}${base:+ ${(qqqq)base}}" Enter
+
+# Right pane: spin until gwa has created the worktree dir, then cd into it.
+# Ctrl-C breaks out of the wait if pull/gwa fails.
+tmux send-keys -t "$right" \
+    "until [[ -d ${(qqqq)worktree_dir} ]]; do sleep 0.2; done && cd ${(qqqq)worktree_dir}" Enter

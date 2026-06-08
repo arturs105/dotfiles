@@ -44,6 +44,12 @@ link "$DOTFILES/vim"   "$HOME/.vim"
 # Tmux
 link "$DOTFILES/tmux.conf" "$HOME/.tmux.conf"
 
+# Tmux helper scripts (referenced by bindings in tmux.conf)
+mkdir -p "$HOME/.bin"
+link "$DOTFILES/bin/gwt-tmux"      "$HOME/.bin/gwt-tmux"
+link "$DOTFILES/bin/gwt-tmux-pick" "$HOME/.bin/gwt-tmux-pick"
+link "$DOTFILES/bin/gwtrm-tmux"    "$HOME/.bin/gwtrm-tmux"
+
 # Claude Code
 mkdir -p "$HOME/.claude"
 link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"

@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+# Interactive picker for `prefix + W`: opens a tmux popup that
+# (1) fzf-picks a base branch, (2) reads branch name, (3) reads claude prompt,
+# then invokes gwt-tmux. All input lives inside the popup shell — no tmux
+# command-prompt templating, so spaces/quotes in inputs are safe.
+
+emulate -L zsh
+set -u
+
+PM_REPO="${PM_REPO:-$HOME/Projects/multi-mic.git}"
+
+if [[ -z "${TMUX:-}" ]]; then
+    print -r -- "Not inside a tmux session" >&2
+    exit 1
+fi
+
+tmux display-popup -E -w 80% -h 70% -d "$PM_REPO" zsh -c '
+emulate -L zsh
+PM_REPO=$(pwd)
+
+base=$({ print "(default)"; \
+         git branch --format="%(refname:short)"; \
+         git branch -r --format="%(refname:short)" | grep -v "origin/HEAD"; \
+       } | fzf --prompt="base> " --height=100% --reverse)
+[[ -z "$base" ]] && { print "aborted"; sleep 0.5; exit 0 }
+[[ "$base" == "(default)" ]] && base=""
+
+print -n "branch: "; read -r branch
+[[ -z "$branch" ]] && { print "aborted"; sleep 0.5; exit 0 }
+
+print -n "prompt: "; read -r prompt
+[[ -z "$prompt" ]] && { print "aborted"; sleep 0.5; exit 0 }
+
+exec "$HOME/.bin/gwt-tmux" "$base" "$branch" "$prompt"
+'

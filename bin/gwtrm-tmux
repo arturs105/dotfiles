@@ -1,0 +1,42 @@
+#!/usr/bin/env zsh
+# Remove the worktree for <branch> via gwrm and, on success, kill <window-id>
+# (or the current tmux window if omitted).
+# Usage: gwtrm-tmux <branch> [<window-id>] [-f]
+#
+# Invoked from tmux's run-shell binding (current pane may be running claude or
+# anything else). Reuses gwrm by spawning an interactive zsh so the function
+# defined in ~/.zshrc is available.
+
+emulate -L zsh
+
+branch=""
+win=""
+force=""
+
+for arg in "$@"; do
+    case "$arg" in
+        -f) force="-f" ;;
+        @*) win="$arg" ;;       # tmux window IDs start with @
+        *)  if [[ -z "$branch" ]]; then branch="$arg"; else win="$arg"; fi ;;
+    esac
+done
+
+if [[ -z "$branch" ]]; then
+    print -r -- "Usage: gwtrm-tmux <branch> [<window-id>] [-f]" >&2
+    exit 1
+fi
+
+if [[ -z "$TMUX" ]]; then
+    print -r -- "Not inside a tmux session" >&2
+    exit 1
+fi
+
+PM_REPO="${PM_REPO:-$HOME/Projects/multi-mic.git}"
+
+if zsh -ic "cd ${(q)PM_REPO} && gwrm ${force:+-f} ${(q)branch}"; then
+    if [[ -n "$win" ]]; then
+        tmux kill-window -t "$win"
+    else
+        tmux kill-window
+    fi
+fi
