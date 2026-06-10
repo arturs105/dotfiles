@@ -11,7 +11,7 @@ Open a pull request on GitHub for the current branch.
 ## Process
 
 1. Gather context in parallel:
-   - `git status` — if the tree is dirty, ask whether to commit/stash first.
+   - `git status` — if the tree is dirty (uncommitted changes), invoke the `/commit` skill first to commit them before proceeding.
    - `git log <base>..HEAD` and `git diff <base>...HEAD` — review ALL commits on the branch, not just the latest.
    - `gh pr view` — if a PR already exists for this branch, abort and tell the user.
    - Current branch name (often contains an issue number, e.g. `123-fix-foo`).
@@ -73,6 +73,8 @@ Open a pull request on GitHub for the current branch.
    ```
 
 7. Print the PR URL.
+
+8. Spawn a fresh-context Agent to run `/review-fix-loop <pr-number>` on the PR. Use the `general-purpose` subagent so the review starts clean without this conversation's context. Run it in the background; report back when it completes.
 
 ## Rules
 
