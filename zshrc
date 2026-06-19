@@ -250,6 +250,7 @@ forge() {
 
 # PolyMic shortcuts
 alias dr='./scripts/device-run.sh'
+alias al='./scripts/app-logs.sh'
 alias oi='./scripts/ota-install.sh'
 alias ox='./scripts/open-xcode-locally.sh'
 PM_REPO="$HOME/Projects/multi-mic.git"
