@@ -108,14 +108,20 @@
     "type": "command",
     "command": "~/.claude/hooks/statusline.sh"
   },
-  "enabledPlugins": {
-    "swift-lsp@claude-plugins-official": true,
-    "vercel@claude-plugins-official": true
-  },
+  "enabledPlugins": {},
   "effortLevel": "medium",
+  "tui": "fullscreen",
   "theme": "light-daltonized",
   "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
+  }
 }
